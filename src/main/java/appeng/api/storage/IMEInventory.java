@@ -14,6 +14,7 @@
 package appeng.api.storage;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
@@ -84,6 +85,20 @@ public interface IMEInventory<StackType extends IAEStack> {
         var ret = getAvailableItems(out);
         IterationCounter.decrementGlobalDepth();
         return ret;
+    }
+
+    /**
+     * Optional filtered variant of {@link #getAvailableItems(IItemList, int)}.
+     *
+     * @param out       the IItemList the results will be written to
+     * @param iteration numeric id for this iteration, use {@link appeng.util.IterationCounter#fetchNewId()} to avoid
+     *                  conflicts
+     * @param filter    optional filter, may be null
+     * @return returns same list that was passed in, is passed out
+     */
+    default IItemList<StackType> getAvailableItems(IItemList<StackType> out, int iteration,
+            Predicate<StackType> filter) {
+        return getAvailableItems(out, iteration);
     }
 
     /**
