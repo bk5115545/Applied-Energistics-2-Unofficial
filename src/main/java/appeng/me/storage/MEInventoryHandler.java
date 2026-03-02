@@ -151,10 +151,8 @@ public class MEInventoryHandler<T extends IAEStack<T>> implements IMEInventoryHa
     }
 
     protected IItemList<T> filterAvailableItems(IItemList<T> out, int iteration, Predicate<T> filterCondition) {
-        final IItemList<T> allAvailableItems = this.internal.getAvailableItems(
-                (IItemList<T>) this.internal.getChannel().createList(),
-                iteration,
-                filterCondition);
+        final IItemList<T> allAvailableItems = this.internal
+                .getAvailableItems((IItemList<T>) this.internal.getChannel().createList(), iteration, filterCondition);
         for (T item : allAvailableItems) {
             if (filterCondition.test(item)) {
                 out.add(item);

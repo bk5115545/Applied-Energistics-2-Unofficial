@@ -296,12 +296,13 @@ public class NetworkInventoryHandler<T extends IAEStack<T>> implements IMENetwor
 
     @Override
     @SuppressWarnings("unchecked")
-    public IItemList<T> getAvailableItems(IItemList out, int iteration) {
+    public IItemList<T> getAvailableItems(IItemList<T> out, int iteration) {
         return getAvailableItems(out, iteration, null);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    public IItemList<T> getAvailableItems(IItemList out, int iteration, Predicate<T> filter) {
+    public IItemList<T> getAvailableItems(IItemList<T> out, int iteration, Predicate<T> filter) {
         if (this.diveIteration(this, Actionable.SIMULATE, iteration)) {
             return this.iterationItems == null ? out : this.iterationItems;
         }
@@ -372,7 +373,7 @@ public class NetworkInventoryHandler<T extends IAEStack<T>> implements IMENetwor
         }
         if (readsFromOtherNetwork) {
             final T stack = this
-                    .getAvailableItems(getPrimitiveItemList(), iteration, stack -> stack.isSameType(request))
+                    .getAvailableItems(getPrimitiveItemList(), iteration, available -> available.equals(request))
                     .findPrecise(request);
             count = addStackCount(stack, count);
         } else {
